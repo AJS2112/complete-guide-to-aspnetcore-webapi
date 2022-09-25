@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using MyBooks.Data;
 using MyBooks.Data.Services;
@@ -20,6 +21,8 @@ builder.Services.AddApiVersioning(config =>
 {
     config.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
     config.AssumeDefaultVersionWhenUnspecified = true;
+
+    config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");
 });    
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
