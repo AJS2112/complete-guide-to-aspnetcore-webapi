@@ -37,7 +37,7 @@ namespace MyBooks.Data.Services
             return _book;
         }
 
-        public List<Book> GetAllBooks(string sortBy)
+        public List<Book> GetAllBooks(string sortBy, string searchString)
         {
             var allBooks = _context.Books.OrderBy(x => x.Title).ToList();
 
@@ -57,6 +57,11 @@ namespace MyBooks.Data.Services
                     default:
                         break;
                 }
+            }
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                allBooks = allBooks.Where(x => x.Title.Contains(searchString)).ToList();
             }
 
             return allBooks;
