@@ -37,7 +37,31 @@ namespace MyBooks.Data.Services
             return _book;
         }
 
-        public List<Book> GetAllBooks() => _context.Books.ToList();
+        public List<Book> GetAllBooks(string sortBy)
+        {
+            var allBooks = _context.Books.OrderBy(x => x.Title).ToList();
+
+            if (!string.IsNullOrEmpty(sortBy))
+            {
+                switch (sortBy)
+                {
+                    case "title_desc":
+                        allBooks = allBooks.OrderByDescending(x => x.Title).ToList();
+                        break;
+                    case "author":
+                        allBooks = allBooks.OrderBy(x => x.Author).ToList();
+                        break;
+                    case "author_desc":
+                        allBooks = allBooks.OrderByDescending(x => x.Author).ToList();
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            return allBooks;
+        } 
+
 
         public Book GetBookById(int bookId) => _context.Books.FirstOrDefault(x => x.Id == bookId);
 

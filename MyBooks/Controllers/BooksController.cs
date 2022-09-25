@@ -38,10 +38,17 @@ namespace MyBooks.Controllers
         }
 
         [HttpGet("get-all")]
-        public IActionResult GetAllBooks()
+        public IActionResult GetAllBooks(string sortBy)
         {
-            var all = _bookService.GetAllBooks();
-            return Ok(all);
+            try
+            {
+                var all = _bookService.GetAllBooks(sortBy);
+                return Ok(all);
+            }
+            catch (Exception)
+            {
+                return BadRequest("Sorry, we could not load the publishers");
+            }
         }
 
         [HttpGet("get-by-id/{id}")]
