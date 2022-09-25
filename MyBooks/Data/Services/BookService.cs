@@ -1,6 +1,7 @@
 ﻿
 using MyBooks.Data.Models;
 using MyBooks.Data.ViewModels;
+using MyBooks.Exceptions;
 
 namespace MyBooks.Data.Services
 {
@@ -12,8 +13,11 @@ namespace MyBooks.Data.Services
             _context = context;
         }
 
-        public void AddBook(BookVM book)
+        public Book AddBook(BookVM book)
         {
+            if (!ValidBookTitle(book.Title))
+                throw new BookTitleException("invalid name", book.Title);
+
             var _book = new Book()
             {
                 Title = book.Title,
@@ -28,7 +32,9 @@ namespace MyBooks.Data.Services
             };
 
             _context.Books.Add(_book);
-            _context.SaveChanges(); 
+            _context.SaveChanges();
+
+            return _book;
         }
 
         public List<Book> GetAllBooks() => _context.Books.ToList();
@@ -64,6 +70,14 @@ namespace MyBooks.Data.Services
                 _context.Books.Remove(_book);
                 _context.SaveChanges();
             }
+        }
+
+        private bool ValidBookTitle(string bookTitle)
+        {
+            if (bookTitle.Length > 5)
+                return false;
+
+            return true;
         }
 
     }

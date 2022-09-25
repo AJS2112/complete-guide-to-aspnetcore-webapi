@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using MyBooks.Data;
 using MyBooks.Data.Services;
+using MyBooks.Exceptions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -30,6 +31,9 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
+
+//app.ConfigureBuildInExceptionHandler();
+app.ConfigureCustomExceptionHandler();
 
 app.MapControllers();
 
