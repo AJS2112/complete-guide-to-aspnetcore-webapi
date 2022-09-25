@@ -38,11 +38,11 @@ namespace MyBooks.Controllers
         }
 
         [HttpGet("get-all")]
-        public IActionResult GetAllBooks(string sortBy, string searchString)
+        public IActionResult GetAllBooks(string sortBy, string searchString, int pageNumber)
         {
             try
             {
-                var all = _bookService.GetAllBooks(sortBy, searchString);
+                var all = _bookService.GetAllBooks(sortBy, searchString, pageNumber);
                 return Ok(all);
             }
             catch (Exception)

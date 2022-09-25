@@ -1,5 +1,6 @@
 ﻿
 using MyBooks.Data.Models;
+using MyBooks.Data.Paging;
 using MyBooks.Data.ViewModels;
 using MyBooks.Exceptions;
 
@@ -37,7 +38,7 @@ namespace MyBooks.Data.Services
             return _book;
         }
 
-        public List<Book> GetAllBooks(string sortBy, string searchString)
+        public List<Book> GetAllBooks(string sortBy, string searchString, int? pageNumber)
         {
             var allBooks = _context.Books.OrderBy(x => x.Title).ToList();
 
@@ -61,8 +62,12 @@ namespace MyBooks.Data.Services
 
             if (!string.IsNullOrEmpty(searchString))
             {
-                allBooks = allBooks.Where(x => x.Title.Contains(searchString)).ToList();
+                allBooks = allBooks.Where(x => x.Title.Contains(searchString, StringComparison.CurrentCultureIgnoreCase)).ToList();
             }
+
+            //Paging
+            int pageSize = 5;
+            allBooks = PaginatedList<Book>.Create(allBooks.AsQueryable(), pageNumber ?? 1, pageSize);
 
             return allBooks;
         } 
