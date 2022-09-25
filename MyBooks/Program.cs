@@ -22,7 +22,9 @@ builder.Services.AddApiVersioning(config =>
     config.DefaultApiVersion = new Microsoft.AspNetCore.Mvc.ApiVersion(1, 0);
     config.AssumeDefaultVersionWhenUnspecified = true;
 
-    config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");
+    //config.ApiVersionReader = new HeaderApiVersionReader("custom-version-header");
+    config.ApiVersionReader = new MediaTypeApiVersionReader();
+
 });    
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
