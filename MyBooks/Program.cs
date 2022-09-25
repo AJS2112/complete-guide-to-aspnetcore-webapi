@@ -3,8 +3,16 @@ using Microsoft.EntityFrameworkCore;
 using MyBooks.Data;
 using MyBooks.Data.Services;
 using MyBooks.Exceptions;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Logging
+builder.Host.UseSerilog((hostcontext, services, configuration) =>
+{
+    //configuration.WriteTo.File("Logs/log.txt", rollingInterval: RollingInterval.Day);
+    configuration.ReadFrom.Configuration(builder.Configuration);
+} );
 
 // Add services to the container.
 

@@ -11,10 +11,12 @@ namespace MyBooks.Controllers
     [ApiController]
     public class BooksController : ControllerBase
     {
-        public BookService _bookService;
+        private readonly ILogger<BooksController> _logger;
+        private readonly BookService _bookService;
 
-        public BooksController(BookService bookService)
+        public BooksController(ILogger<BooksController> logger, BookService bookService)
         {
+            _logger = logger;
             _bookService = bookService;
         }
 
@@ -42,6 +44,7 @@ namespace MyBooks.Controllers
         {
             try
             {
+                _logger.LogInformation("This is just a log for GetAllBooks Controller");
                 var all = _bookService.GetAllBooks(sortBy, searchString, pageNumber);
                 return Ok(all);
             }
@@ -55,6 +58,7 @@ namespace MyBooks.Controllers
         public CustomActionResult GetById(int id)
         {
             //throw new Exception("This is an exception that will be handled by middleware");
+            _logger.LogInformation("This is just a log for GetAllBooks Controller");
             var book = _bookService.GetBookById(id);
             if (book != null)
             {
